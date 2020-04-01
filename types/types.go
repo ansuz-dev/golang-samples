@@ -14,6 +14,10 @@ func main() {
   fmt.Println()
 
   // string
+  var str1 string = "Ha Noi"
+  fmt.Printf("str1 = %s\n", str1)
+  fmt.Printf("length in bytes of str1 = %d\n", len(str1))
+
   var str string
   str = "Hà Nội"
   fmt.Printf("str = %s\n", str)
@@ -49,11 +53,11 @@ func main() {
 
   // unsigned integer
   var (
-    ui   int
-    ui8  int8
-    ui16 int16
-    ui32 int32
-    ui64 int64
+    ui   uint
+    ui8  uint8
+    ui16 uint16
+    ui32 uint32
+    ui64 uint64
   )
   fmt.Printf("size in bytes of ui = %d\n", unsafe.Sizeof(ui))
   fmt.Printf("size in bytes of ui8 = %d\n", unsafe.Sizeof(ui8))

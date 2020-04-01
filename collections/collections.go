@@ -35,6 +35,7 @@ func sliceType() {
   slice2 = append(slice2, 3)
   fmt.Printf("slice2 = %v\n", slice2)
   fmt.Printf("Now, length of slice2 = %d\n", len(slice2))
+  fmt.Printf("capacity of slice2 = %d\n", cap(slice2))
   fmt.Println()
 
   slice3 := make([]int, 10)
@@ -72,6 +73,46 @@ func sliceCapacity() {
   fmt.Printf("length of slice = %d\n", len(slice))
   fmt.Printf("capacity of slice = %d\n", cap(slice))
   fmt.Println()
+
+  for i := 0; i < 10; i++ {
+    slice = append(slice, i)
+  }
+  fmt.Printf("length of slice = %d\n", len(slice))
+  fmt.Printf("capacity of slice = %d\n", cap(slice))
+  fmt.Println()
+}
+
+func sliceASlice() {
+  // var array [5]int
+  var slice = make([]int, 5)
+  fmt.Printf("length of slice = %d\n", len(slice))
+  fmt.Printf("capacity of slice = %d\n", cap(slice))
+  fmt.Println(slice)
+  fmt.Println()
+
+  slice1 := slice[0:3]
+  fmt.Printf("length of slice1 = %d\n", len(slice1))
+  fmt.Printf("capacity of slice1 = %d\n", cap(slice1))
+  slice1[0] = 8
+  fmt.Println(slice)
+  fmt.Println()
+
+  slice2 := slice[1:3]
+  fmt.Printf("length of slice2 = %d\n", len(slice2))
+  fmt.Printf("capacity of slice2 = %d\n", cap(slice2))
+  fmt.Println()
+  slice2[0] = 8
+  fmt.Println(slice)
+
+  slice3 := slice1[2:3]
+  slice3[0] = 9
+  fmt.Println(slice)
+
+  slice4 := make([]int, 3)
+  copy(slice4, slice[0:3])
+  slice4[0] = 5
+  fmt.Println(slice4)
+  fmt.Println(slice)
 }
 
 func mapType() {
@@ -104,8 +145,9 @@ func mapType() {
 }
 
 func main() {
-  arrayType()
+  // arrayType()
   // sliceType()
   // sliceCapacity()
   // mapType()
+  sliceASlice()
 }

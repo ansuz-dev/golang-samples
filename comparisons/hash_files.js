@@ -36,7 +36,7 @@ async function hashNTimes(n) {
 const NS_PER_SEC = 1e9;
 const time = process.hrtime();
 
-hashNTimes(100)
+hashNTimes(1000)
   .then(() => {
     const diff = process.hrtime(time);
     console.log(`Execution time = ${diff[0] * NS_PER_SEC + diff[1]} nanoseconds`);

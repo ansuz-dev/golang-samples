@@ -80,7 +80,7 @@ func declare2() {
 }
 
 func main() {
-  // declare_1()
+  // declare1()
 
   declare2()
 }

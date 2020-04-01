@@ -49,7 +49,7 @@ func main() {
   fmt.Printf("n CPU = %d\n", nprocs)
 
   t0 := time.Now()
-  hashNTimes(100)
+  hashNTimes(1000)
   elapsed := time.Since(t0)
   fmt.Printf("Execution time = %d nanoseconds\n", elapsed.Nanoseconds())
 }
