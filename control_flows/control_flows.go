@@ -5,7 +5,7 @@ import (
 )
 
 func count() int {
-  return 8
+  return 18
 }
 
 func ifControl() {
@@ -71,6 +71,10 @@ func switchControl(c int) {
     fmt.Println("even")
   case 1, 3, 5, 7:
     fmt.Println("odd")
+  case 16 - 2:
+    fmt.Println("ooo")
+  case count():
+    fmt.Println("count")
   default:
     fmt.Println("unknown")
   }
@@ -94,6 +98,6 @@ func switchControl(c int) {
 func main() {
   // ifControl()
   // forLoop()
-  // switchControl(5)
-  forEach()
+  switchControl(18)
+  // forEach()
 }
