@@ -1,4 +1,10 @@
 
+## Run Node.js file
+
+```console
+node source.js
+```
+
 ## Run Go file
 
 ```console
