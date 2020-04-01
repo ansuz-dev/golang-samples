@@ -139,6 +139,9 @@ func mapType() {
     fmt.Println()
   }
 
+  fmt.Printf("Now, Ages: %v\n", ages)
+  fmt.Printf("Length of ages: %v\n", len(ages))
+
   addresses := make(map[string]string, 3)
   addresses["Jane"] = "Hà Nội"
   fmt.Printf("Length of addresses: %v\n", len(addresses))
@@ -148,6 +151,6 @@ func main() {
   // arrayType()
   // sliceType()
   // sliceCapacity()
-  // mapType()
-  sliceASlice()
+  mapType()
+  // sliceASlice()
 }

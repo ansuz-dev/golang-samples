@@ -39,6 +39,30 @@ func forLoop() {
   fmt.Println("Sum =", sum)
 }
 
+func forEach() {
+  var arr = [5]int{1, 2, 3, 4, 5}
+  for index, value := range arr {
+    fmt.Println(index, value)
+  }
+
+  fmt.Println()
+
+  var slice = make([]int, 5)
+  slice[4] = 4
+  for index, value := range slice {
+    fmt.Println(index, value)
+  }
+
+  ages := map[string]int{
+    "John": 20,
+    "Jane": 21,
+    "Jack": 30,
+  }
+  for key, value := range ages {
+    fmt.Println(key, value)
+  }
+}
+
 func switchControl(c int) {
   switch c {
   case 0:
@@ -68,7 +92,8 @@ func switchControl(c int) {
 }
 
 func main() {
-  ifControl()
-  forLoop()
-  switchControl(5)
+  // ifControl()
+  // forLoop()
+  // switchControl(5)
+  forEach()
 }
