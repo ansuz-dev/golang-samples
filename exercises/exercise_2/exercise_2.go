@@ -27,10 +27,12 @@ func wordCount(s string) map[string]int {
 
   // last word
   word := string(bytes[start:])
-  if _, ok := words[word]; ok {
-    words[word]++
-  } else {
-    words[word] = 1
+  if len(word) > 0 {
+    if _, ok := words[word]; ok {
+      words[word]++
+    } else {
+      words[word] = 1
+    }
   }
 
   return words
