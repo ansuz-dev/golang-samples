@@ -16,6 +16,7 @@ func arrayType() {
 
   arr2 := [2]string{"Hello", "world"}
   fmt.Printf("length of arr2 = %d\n", len(arr2))
+  fmt.Printf("capacity of arr2 = %d\n", cap(arr2))
   fmt.Printf("arr2 = %v\n", arr2)
   // arr2[2] = "VN"
   // arr2 = append(arr2, "VN")
@@ -53,7 +54,58 @@ func sliceType() {
   fmt.Println()
 }
 
+func sliceCapacity() {
+  slice := make([]int, 5)
+  fmt.Printf("length of slice = %d\n", len(slice))
+  fmt.Printf("capacity of slice = %d\n", cap(slice))
+  fmt.Printf("slice = %v\n", slice)
+  fmt.Println()
+
+  slice = append(slice, 1)
+  fmt.Printf("length of slice = %d\n", len(slice))
+  fmt.Printf("capacity of slice = %d\n", cap(slice))
+  fmt.Println()
+
+  for i := 0; i < 5; i++ {
+    slice = append(slice, i)
+  }
+  fmt.Printf("length of slice = %d\n", len(slice))
+  fmt.Printf("capacity of slice = %d\n", cap(slice))
+  fmt.Println()
+}
+
+func mapType() {
+  ages := map[string]int{
+    "John": 20,
+    "Jane": 21,
+    "Jack": 30,
+  }
+  fmt.Printf("Ages: %v\n", ages)
+  fmt.Printf("Length of ages: %v\n", len(ages))
+  fmt.Println()
+
+  fmt.Printf("Jane's age: %v\n", ages["Jane"])
+  fmt.Println()
+
+  ages["Jane"] = 22
+  fmt.Printf("Now, Jane's age: %v\n", ages["Jane"])
+  fmt.Println()
+
+  delete(ages, "Jane")
+  _, ok := ages["Jane"]
+  if !ok {
+    fmt.Printf("Jane is removed\n")
+    fmt.Println()
+  }
+
+  addresses := make(map[string]string, 3)
+  addresses["Jane"] = "Hà Nội"
+  fmt.Printf("Length of addresses: %v\n", len(addresses))
+}
+
 func main() {
   arrayType()
-  sliceType()
+  // sliceType()
+  // sliceCapacity()
+  // mapType()
 }
