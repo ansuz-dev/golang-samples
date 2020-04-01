@@ -16,4 +16,13 @@ var names = []string{
 
 func main() {
   fmt.Println(names)
+
+  groups := map[int][]string{}
+
+  for _, name := range names {
+    len := len(name)
+    groups[len] = append(groups[len], name)
+  }
+
+  fmt.Println(groups)
 }
