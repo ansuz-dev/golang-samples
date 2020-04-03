@@ -1,3 +1,5 @@
-module github.com/ansuz-dev/golang-samples
+module golang-samples
 
 go 1.13
+
+require github.com/dgrijalva/jwt-go v3.2.0+incompatible
