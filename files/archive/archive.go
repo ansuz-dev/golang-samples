@@ -46,6 +46,8 @@ func main() {
   dst := "test.zip"
   files := []string{
     "lorem.txt",
+    "lorem_2.txt",
+    "lorem_3.txt",
   }
 
   archive(dst, files)

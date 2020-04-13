@@ -25,7 +25,7 @@ func connect(connection string) *sql.DB {
 }
 
 func queryRows(db *sql.DB) {
-  rows, err := db.Query("select id, username from Accounts where id = ?", 1)
+  rows, err := db.Query("select id, username from Accounts")
   if err != nil {
     panic(err)
   }
@@ -46,7 +46,7 @@ func queryRows(db *sql.DB) {
 }
 
 func queryRows2(db *sql.DB, stm *sql.Stmt) {
-  rows, err := stm.Query(1)
+  rows, err := stm.Query(1, "user_2")
   if err != nil {
     panic(err)
   }
@@ -72,9 +72,11 @@ func queryRow(db *sql.DB) {
     username string
   )
 
-  err := db.
-    QueryRow("select id, username from Accounts where id = ?", 1).
-    Scan(&id, &username)
+  row := db.QueryRow("select id, username from Accounts where id = ?", 3)
+
+  fmt.Println("Passed", row)
+
+  err := row.Scan(&id, &username)
   if err != nil {
     panic(err)
   }
@@ -149,6 +151,7 @@ func createTransactionFail(db *sql.DB) (err error) {
     }
     // simulate break here
     if i == 1 {
+      fmt.Println("Break here ! Rollback")
       return
     }
   }
@@ -163,18 +166,19 @@ func createTransactionFail(db *sql.DB) (err error) {
 }
 
 func main() {
+  // change dev:root to your local credential
   db := connect("dev:root@tcp(127.0.0.1:3306)/contacts")
   defer db.Close()
   fmt.Println("Connected !")
 
-  stm, err := db.Prepare("select id, username from Accounts where id = ?")
+  stm, err := db.Prepare("select id, username from Accounts where id = ? and username = ?")
   if err != nil {
     panic(err)
   }
   defer stm.Close()
 
-  // queryRow(db)
+  queryRow(db)
   // insertRow(db)
 
-  createTransactionFail(db)
+  // createTransactionFail(db)
 }

@@ -3,24 +3,31 @@ package main
 import (
   "fmt"
   "io"
+  "io/ioutil"
   "os"
 )
 
 func main() {
   // createEmptyFile("empty.txt")
   // getFileInfo("lorem.txt")
-  // rename("lorem_new.txt", "lorem.txt")
+  // rename("lorem.txt", "lorem_new.txt")
   // deleteFile("empty.txt")
   // openFile("lorem.txt")
   // existed := exists("empty.txt")
   // fmt.Println(existed)
-  // createHardLink("lorem.txt", "hl_lorem.txt")
-  // createSymLink("lorem.txt", "sl_lorem.txt")
+
+  // createHardLink("hl_lorem.txt", "hl_lorem_2.txt")
   // getSymlinkInfo("hl_lorem.txt")
+
+  // This function only work on Unix system
+  // createSymLink("lorem.txt", "sl_lorem.txt")
+
   // copyFile("lorem.txt", "lorem_dst.txt")
 
   buff := readFile2("lorem.txt", 6000)
   fmt.Println("Length of buff:", len(buff))
+
+  // writeFile2("empty.txt")
 }
 
 func createEmptyFile(fileName string) {
@@ -61,14 +68,14 @@ func deleteFile(fileName string) {
 
 func openFile(fileName string) {
   // Open file to read only
-  file, err := os.Open(fileName)
-  if err != nil {
-    panic(err)
-  }
-  file.Close()
+  // file, err := os.Open(fileName)
+  // if err != nil {
+  //   panic(err)
+  // }
+  // file.Close()
 
   // Open file with more options
-  file, err = os.OpenFile(fileName, os.O_APPEND, 0666)
+  file, err := os.OpenFile(fileName, os.O_RDWR, 0666)
   if err != nil {
     panic(err)
   }
@@ -172,4 +179,28 @@ func readFile2(src string, bytes int64) []byte {
   fmt.Println("Bytes read: ", bytesRead)
 
   return buff
+}
+
+func writeFile(src string) {
+  file, err := os.OpenFile(src, os.O_RDWR, 0666)
+  if err != nil {
+    panic(err)
+  }
+  defer file.Close()
+
+  buff := []byte{65, 67, 68}
+  writtenBytes, err := file.Write(buff)
+  if err != nil {
+    panic(err)
+  }
+  fmt.Println("Byte written:", writtenBytes)
+}
+
+func writeFile2(src string) {
+  buff := []byte{69, 70, 71}
+
+  err := ioutil.WriteFile(src, buff, 0666)
+  if err != nil {
+    panic(err)
+  }
 }
