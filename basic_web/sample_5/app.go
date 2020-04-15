@@ -32,7 +32,7 @@ func main() {
 
   http.HandleFunc("/", log(index))
   http.HandleFunc("/hello", log(hello))
-  http.HandleFunc("/world", log(world))
+  http.HandleFunc("/world", log(log(log(world))))
 
   server.ListenAndServe()
 }

@@ -3,10 +3,9 @@ package main
 import (
   "fmt"
   _ "github.com/go-sql-driver/mysql"
+  "github.com/jinzhu/gorm"
   "time"
 )
-
-import "github.com/jinzhu/gorm"
 
 type Account struct {
   ID           int       `gorm:"PRIMARY_KEY;AUTO_INCREMENT"`
@@ -49,56 +48,58 @@ func main() {
   fmt.Println("Connected !")
 
   // create a new account
-  acc1 := Account{
-    Username:     "user_1",
-    PasswordHash: "password_1",
-    State:        "ENABLED",
-  }
-  err := db.Create(&acc1).Error
-  if err != nil {
-    fmt.Println(err)
-    return
-  }
-
-  // Create a post
-  post1 := Post{Content: "A new post!"}
-  err = db.Model(&acc1).Association("Posts").Append(post1).Error
-  if err != nil {
-    fmt.Println(err)
-    return
-  }
+  // acc1 := Account{
+  //   Username:     "user_1",
+  //   PasswordHash: "password_1",
+  //   State:        "ENABLED",
+  // }
+  // err := db.Create(&acc1).Error
+  // if err != nil {
+  //   fmt.Println(err)
+  //   return
+  // }
 
   // Get an account
   var readAcc Account
-  err = db.First(&readAcc, 6).Error
+  err := db.Preload("Posts").First(&readAcc, 1).Error
   if err != nil {
     fmt.Println(err)
     return
   }
   fmt.Println(readAcc)
 
-  // Update the account
-  readAcc.Username = "user_updated"
-  err = db.Save(&readAcc).Error
+  // Create a post
+  post2 := Post{Content: "A new post for user 1!"}
+  err = db.Model(&readAcc).Association("Posts").Append(post2).Error
   if err != nil {
     fmt.Println(err)
     return
   }
+
+  // // Update the account
+  // readAcc.Username = "user_updated"
+  // readAcc.PasswordHash = "new_password"
+  // err = db.Save(&readAcc).Error
+  // if err != nil {
+  //   fmt.Println(err)
+  //   return
+  // }
 
   // Get posts related to account
-  var posts []Post
-  err = db.Model(&readAcc).Related(&posts).Error
-  if err != nil {
-    fmt.Println(err)
-    return
-  }
-  fmt.Println(posts)
+  // var posts []Post
+  // err = db.Model(&readAcc).Related(&posts).Error
+  // if err != nil {
+  //   fmt.Println(err)
+  //   return
+  // }
+  // fmt.Println(posts)
 
-  // Delete an account
-  err = db.Where("id = ?", 1).First(&readAcc).Error
+  // // Delete an account
+  var post3 Post
+  err := db.Where("id = ?", 3).First(&post3).Error
   if err != nil {
     fmt.Println(err)
     return
   }
-  db.Delete(&readAcc)
+  db.Delete(&post3)
 }

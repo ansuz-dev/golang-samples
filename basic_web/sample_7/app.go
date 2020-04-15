@@ -21,7 +21,7 @@ func setCookie(w http.ResponseWriter, r *http.Request) {
     Value:    "vi",
     Path:     "/",
     HttpOnly: true,
-    MaxAge:   10000,
+    MaxAge:   10,
   }
 
   w.Header().Set("Set-Cookie", c1.String())

@@ -14,11 +14,11 @@ func (h *MyHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func main() {
   fmt.Println("Server is running ...")
 
-  handler := MyHandler{}
+  handler := &MyHandler{}
 
   server := http.Server{
     Addr:    "127.0.0.1:3000",
-    Handler: &handler,
+    Handler: handler,
   }
 
   server.ListenAndServe()
