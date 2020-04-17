@@ -7,7 +7,8 @@ import (
 )
 
 const (
-  hmacSecret = "iQasdq4MMdY2wxZCpAm1SxpbkGQopM4wx9QLgtVaHfjGCavuMLcuAZG6CvFxJaMd"
+  hmacSecret  = "iQasdq4MMdY2wxZCpAm1SxpbkGQopM4wx9QLgtVaHfjGCavuMLcuAZG6CvFxJaMd"
+  hmacSecret2 = "other_secret"
 )
 
 type TokenClaims struct {
@@ -19,6 +20,8 @@ func createToken(accountId uint) (tokenStr string, err error) {
   token := jwt.NewWithClaims(jwt.SigningMethodHS256, TokenClaims{
     AccountID: accountId,
     StandardClaims: jwt.StandardClaims{
+      Issuer:    "asdfasdfadf",
+      IssuedAt:  time.Now().Unix(),
       ExpiresAt: time.Now().Unix() + 1*60*60, // will be expired in 1 hour
       NotBefore: time.Now().Unix(),
     },
@@ -34,7 +37,7 @@ func verifyToken(tokenStr string) (claims *TokenClaims, err error) {
       return nil, fmt.Errorf("Invalid token")
     }
 
-    return []byte(hmacSecret), nil
+    return []byte(hmacSecret2), nil
   })
 
   if err != nil {
@@ -62,8 +65,9 @@ func main() {
   fmt.Println("Account ID:", claims.AccountID)
 
   // verify expired token
-  claims, err = verifyToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODcxMTI5OTQsIm5iZiI6MTU4NzExMjk5MywiYWNjb3VudF9pZCI6MX0.dDWisMMJ2ZkI60AkQGKILtGVMyowQxzBo88nC0tBHVc")
-  if err != nil {
-    panic(err)
-  }
+  // claims, err := verifyToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODcxMjMzNzUsImlhdCI6MTU4NzEyMzM3NCwiaXNzIjoiYXNkZmFzZGZhZGYiLCJuYmYiOjE1ODcxMjMzNzQsImFjY291bnRfaWQiOjF9.5vp21Hm0csLMhAZiJJPdqfeceKXwUYYhpacL7x3P1oY")
+  // if err != nil {
+  //   panic(err)
+  // }
+  // fmt.Println("Account ID:", claims.AccountID)
 }
