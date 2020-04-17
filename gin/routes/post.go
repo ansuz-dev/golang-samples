@@ -31,6 +31,28 @@ func GetPostByAccount(ctx *gin.Context) {
   ctx.JSON(200, posts)
 }
 
-func HandlerFunc(ctx *gin.Context) {
-  // TODO: handle here
+func UpdatePostByID(ctx *gin.Context) {
+  id := ctx.Param("id")
+
+  post, err := services.GetPostByID(id)
+  if err != nil {
+    ctx.AbortWithError(400, err)
+    return
+  }
+
+  newPost := models.Post{}
+  if err = ctx.BindJSON(&newPost); err != nil {
+    ctx.AbortWithError(400, err)
+    return
+  }
+
+  post.Content = newPost.Content
+  err = services.SavePost(post)
+  if err != nil {
+    ctx.AbortWithError(400, err)
+    return
+  }
+
+  ctx.Status(200)
+  return
 }

@@ -32,8 +32,24 @@ func GetAccountByID(id string) (account *models.Account, err error) {
   return
 }
 
+func SaveAccount(account *models.Account) (err error) {
+  err = DB.Save(account).Error
+  return
+}
+
+func GetPostByID(id string) (post *models.Post, err error) {
+  post = &models.Post{}
+  err = DB.First(post, id).Error
+  return
+}
+
 func GetPostsByAccount(accountId string) (posts *[]models.Post, err error) {
   posts = new([]models.Post)
-  err = DB.Find(posts).Where("account_id = ?", accountId).Error
+  err = DB.Where("account_id = ?", accountId).Find(posts).Error
+  return
+}
+
+func SavePost(post *models.Post) (err error) {
+  err = DB.Save(post).Error
   return
 }
