@@ -19,7 +19,7 @@ type Account struct {
 
 type Post struct {
   ID        int       `gorm:"PRIMARY_KEY;AUTO_INCREMENT"`
-  AccountId int       `gorm:"NOT NULL"`
+  AccountID int       `gorm:"NOT NULL"`
   Content   string    `gorm:"NOT NULL"`
   CreatedAt time.Time `gorm:"NOT NULL"`
   UpdatedAt time.Time `gorm:"NOT NULL"`
@@ -42,10 +42,63 @@ func connect(connection string) *gorm.DB {
   return db
 }
 
+func getPostsPerAccount(db *gorm.DB) (err error) {
+  // get all accounts
+  accounts := []Account{}
+  err = db.Find(&accounts).Error
+  if err != nil {
+    return
+  }
+
+  fmt.Println(len(accounts))
+
+  // get 3 posts for each account
+  for i := 0; i < len(accounts); i++ {
+    accounts[i].Posts = []Post{}
+    err = db.Model(accounts[i]).Limit(3).Related(&(accounts[i].Posts)).Error
+    if err != nil {
+      return
+    }
+  }
+
+  fmt.Println(accounts)
+
+  return
+}
+
+func getPostsPerAccount2(db *gorm.DB) (err error) {
+  // get all accounts
+  accounts := []Account{}
+  err = db.Find(&accounts).Error
+  if err != nil {
+    return
+  }
+
+  fmt.Println(len(accounts))
+
+  // get 3 posts for each account
+  for i := 0; i < len(accounts); i++ {
+    accounts[i].Posts = []Post{}
+    err = db.Model(accounts[i]).Limit(3).Related(&(accounts[i].Posts)).Error
+    if err != nil {
+      return
+    }
+  }
+
+  fmt.Println(accounts)
+
+  return
+}
+
 func main() {
   db := connect("dev:root@tcp(127.0.0.1:3306)/contacts?parseTime=true")
   defer db.Close()
   fmt.Println("Connected !")
+
+  err := getPostsPerAccount(db)
+  if err != nil {
+    fmt.Println(err)
+  }
 
   // create a new account
   // acc1 := Account{
@@ -60,21 +113,21 @@ func main() {
   // }
 
   // Get an account
-  var readAcc Account
-  err := db.Preload("Posts").First(&readAcc, 1).Error
-  if err != nil {
-    fmt.Println(err)
-    return
-  }
-  fmt.Println(readAcc)
+  // var readAcc Account
+  // err := db.Preload("Posts").First(&readAcc, 1).Error
+  // if err != nil {
+  //   fmt.Println(err)
+  //   return
+  // }
+  // fmt.Println(readAcc)
 
   // Create a post
-  post2 := Post{Content: "A new post for user 1!"}
-  err = db.Model(&readAcc).Association("Posts").Append(post2).Error
-  if err != nil {
-    fmt.Println(err)
-    return
-  }
+  // post2 := Post{Content: "A new post for user 1!"}
+  // err = db.Model(&readAcc).Association("Posts").Append(post2).Error
+  // if err != nil {
+  //   fmt.Println(err)
+  //   return
+  // }
 
   // // Update the account
   // readAcc.Username = "user_updated"
@@ -95,11 +148,11 @@ func main() {
   // fmt.Println(posts)
 
   // // Delete an account
-  var post3 Post
-  err := db.Where("id = ?", 3).First(&post3).Error
-  if err != nil {
-    fmt.Println(err)
-    return
-  }
-  db.Delete(&post3)
+  // var post3 Post
+  // err = db.Where("id = ?", 3).First(&post3).Error
+  // if err != nil {
+  //   fmt.Println(err)
+  //   return
+  // }
+  // db.Delete(&post3)
 }
